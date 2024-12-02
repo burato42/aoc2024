@@ -2,13 +2,12 @@ package main
 
 import (
 	"fmt"
-	"aoc2024/day1"
+	"aoc2024/day2"
 )
 
 
 func main() {
-	fmt.Println(day1.CalculateDist(day1.ReadInput("./day1/sample.txt")))
-	fmt.Println(day1.CalculateDist(day1.ReadInput("./day1/input.txt")))
-	fmt.Println(day1.CalculateSimilarity((day1.ReadInput("./day1/sample.txt"))))
-	fmt.Println(day1.CalculateSimilarity((day1.ReadInput("./day1/input.txt"))))
+	fmt.Println(day2.AnalyzeReport("./day2/sample.txt"))
+	fmt.Println(day2.AnalyzeReport("./day2/input.txt"))
+
 }

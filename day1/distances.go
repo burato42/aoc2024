@@ -1,21 +1,14 @@
 package day1
 
 import (
+	"aoc2024/utils"
 	"bufio"
 	"math"
 	"os"
 	"sort"
-	"strconv"
 	"strings"
 )
 
-func digitToInt(digitStr string) int {
-	digit, err := strconv.Atoi(digitStr)
-	if err != nil {
-		panic("We have not a number, we can't proceed")
-	}
-	return digit
-}
 
 func ReadInput(textFile string) ([]int, []int) {
 	file, err := os.Open(textFile)
@@ -31,8 +24,8 @@ func ReadInput(textFile string) ([]int, []int) {
 		line := scanner.Text()
 		distances := strings.Fields(line)
 
-		left = append(left, digitToInt(distances[0]))
-		right = append(right, digitToInt(distances[1]))
+		left = append(left, utils.DigitToInt(distances[0]))
+		right = append(right, utils.DigitToInt(distances[1]))
 	}
 
 	if err := scanner.Err(); err != nil {
