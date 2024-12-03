@@ -4,7 +4,7 @@ import "testing"
 
 func TestIsSafe(t *testing.T) {
 	testCases := []struct {
-		input []int
+		input    []int
 		expected bool
 	}{
 		{[]int{7, 6, 4, 2, 1}, true},
@@ -25,7 +25,7 @@ func TestIsSafe(t *testing.T) {
 
 func TestIsSafeWithTolerance(t *testing.T) {
 	testCases := []struct {
-		input []int
+		input    []int
 		expected bool
 	}{
 		{[]int{7, 6, 4, 2, 1}, true},
@@ -39,7 +39,7 @@ func TestIsSafeWithTolerance(t *testing.T) {
 	for _, tc := range testCases {
 		actual := isSafeWithTolerance(tc.input)
 		if actual != tc.expected {
-			t.Errorf("isSafe(%v) = %v, want %v", tc.input, actual, tc.expected)
+			t.Errorf("isSafeWithTolerance(%v) = %v, want %v", tc.input, actual, tc.expected)
 		}
 	}
 }

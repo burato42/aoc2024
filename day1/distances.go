@@ -9,7 +9,6 @@ import (
 	"strings"
 )
 
-
 func ReadInput(textFile string) ([]int, []int) {
 	file, err := os.Open(textFile)
 	if err != nil {

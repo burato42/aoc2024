@@ -4,11 +4,10 @@ import (
 	"testing"
 )
 
-
 func TestCalculateDistance(t *testing.T) {
 	testCases := []struct {
-		left []int
-		right []int
+		left     []int
+		right    []int
 		expected int
 	}{
 		{[]int{1, 2}, []int{3, 4}, 4},
@@ -27,8 +26,8 @@ func TestCalculateDistance(t *testing.T) {
 
 func TestCalculateSimilarity(t *testing.T) {
 	testCases := []struct {
-		left []int
-		right []int
+		left     []int
+		right    []int
 		expected int
 	}{
 		{[]int{1, 2}, []int{3, 4}, 0},
