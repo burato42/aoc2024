@@ -3,6 +3,7 @@ package day4
 import (
 	"bufio"
 	"os"
+	"reflect"
 	"strings"
 )
 
@@ -55,26 +56,25 @@ func FindWords(matrix [][]string) int {
 }
 
 func FindXWords(matrix [][]string) int {
-
+	patterns := [][]string{{"S", "S", "M", "M"}, {"S", "M", "S", "M"}, {"M", "M", "S", "S"}, {"M", "S", "M", "S"}}
 	height := len(matrix)
 	width := len(matrix[0])
 	counter := 0
 	for v, line := range matrix {
 		for h := range line {
+			options := []string{}
 			if matrix[v][h] == "A" &&
 				isInside(v-1, h-1, height, width) &&
 				isInside(v-1, h+1, height, width) &&
 				isInside(v+1, h-1, height, width) &&
-				isInside(v+1, h+1, height, width) &&
-				((matrix[v-1][h-1] == matrix[v-1][h+1] && matrix[v-1][h+1] == "S" &&
-					matrix[v+1][h-1] == matrix[v+1][h+1] && matrix[v+1][h+1] == "M") ||
-					(matrix[v-1][h-1] == matrix[v-1][h+1] && matrix[v-1][h+1] == "M" &&
-						matrix[v+1][h-1] == matrix[v+1][h+1] && matrix[v+1][h+1] == "S") ||
-					(matrix[v-1][h-1] == matrix[v+1][h-1] && matrix[v-1][h-1] == "S" &&
-						matrix[v+1][h+1] == matrix[v-1][h+1] && matrix[v-1][h+1] == "M") ||
-					(matrix[v-1][h-1] == matrix[v+1][h-1] && matrix[v-1][h-1] == "M" &&
-						matrix[v+1][h+1] == matrix[v-1][h+1] && matrix[v-1][h+1] == "S")) {
-				counter++
+				isInside(v+1, h+1, height, width) {
+					options = append(options, matrix[v-1][h-1], matrix[v-1][h+1], matrix[v+1][h-1], matrix[v+1][h+1])
+					for _, pattern := range patterns {
+						if reflect.DeepEqual(pattern, options) {
+							counter++
+							break
+						}
+					}
 			}
 
 		}
