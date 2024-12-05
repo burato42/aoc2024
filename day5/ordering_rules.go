@@ -5,6 +5,7 @@ import (
 	"bufio"
 	"os"
 	"slices"
+	"sort"
 	"strings"
 )
 
@@ -83,9 +84,20 @@ func SumIncorrectPageNumbers(rules map[int][]int, lines [][]int) int {
 	res := 0
 	for _, line := range lines {
 		if !IsCorrectOrder(rules, line) {
-			newLine := FixOrder(rules, line)
+			// newLine := FixOrder(rules, line)
+			newLine := Sort(rules, line)
 			res += newLine[len(line)/2]
 		}
 	}
 	return res
+}
+
+func Sort(rules map[int][]int, line []int) []int {
+	sort.SliceStable(line, func(i, j int) bool {
+		if to, ok := rules[line[i]]; ok && slices.Contains(to, line[j]) {
+			return true
+		}
+		return false
+	})
+	return line
 }
