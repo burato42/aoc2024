@@ -1,13 +1,11 @@
 package main
 
 import (
-	"aoc2024/day5"
+	"aoc2024/day6"
+	"aoc2024/utils"
 	"fmt"
 )
 
 func main() {
-	fmt.Println(day5.SumPageNumbers(day5.ReadTextFile("./day5/sample.txt")))
-	fmt.Println(day5.SumPageNumbers(day5.ReadTextFile("./day5/input.txt")))
-	fmt.Println(day5.SumIncorrectPageNumbers(day5.ReadTextFile("./day5/sample.txt")))
-	fmt.Println(day5.SumIncorrectPageNumbers(day5.ReadTextFile("./day5/input.txt")))
+	fmt.Println(day6.CountLoops(utils.ReadTextToMatrix(("./day6/input.txt"))))
 }
