@@ -6,10 +6,9 @@ import (
 	"testing"
 )
 
-
 func TestAddObstacles(t *testing.T) {
 	input := [][]string{{".", "."}, {".", "."}}
-	actual := AddObstacles(input) 
+	actual := AddObstacles(input)
 	expected := [][][]string{
 		{{"#", "."}, {".", "."}},
 		{{".", "#"}, {".", "."}},
@@ -20,7 +19,6 @@ func TestAddObstacles(t *testing.T) {
 		t.Errorf("AddObstacles(%v) = %v, want %v", input, actual, expected)
 	}
 }
-
 
 func TestCountLoops(t *testing.T) {
 	input := "./../day6/sample.txt"
