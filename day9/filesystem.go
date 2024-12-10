@@ -4,6 +4,7 @@ import (
 	"aoc2024/utils"
 	"bufio"
 	"os"
+	"slices"
 	"strconv"
 	"strings"
 )
@@ -29,7 +30,6 @@ func ReadInput(textFile string) []int {
 	return res
 }
 
-
 func FillBlocks(blocks []int) []string {
 	filled := []string{}
 
@@ -50,13 +50,13 @@ func FillBlocks(blocks []int) []string {
 		if id >= len(blocks)/2 {
 			break
 		}
-	
+
 	}
 	return filled
 }
 
 func CompressBlocks(blocks []string) []string {
-	left, right := 0, len(blocks) - 1
+	left, right := 0, len(blocks)-1
 	for left < right {
 		if blocks[left] != "." {
 			left++
@@ -72,10 +72,9 @@ func CompressBlocks(blocks []string) []string {
 func CalcCheckSum(blocks []string) int {
 	checkSum := 0
 	for i, digit := range blocks {
-		if digit == "." {
-			continue
+		if digit != "." {
+			checkSum += i * utils.DigitToInt(digit)
 		}
-		checkSum += i * utils.DigitToInt(digit)
 	}
 	return checkSum
 }
@@ -85,7 +84,7 @@ type Empty struct {
 }
 type Busy struct {
 	start, size int
-	value string
+	value       string
 }
 
 func FindSpareSpace(blocks []string) []Empty {
@@ -95,8 +94,6 @@ func FindSpareSpace(blocks []string) []Empty {
 	for i, digit := range blocks {
 		if digit == "." && start == -1 {
 			start = i
-		} else if  digit == "." && start != -1 {
-			continue
 		} else if digit != "." && start != -1 {
 			size = i - start
 			spareAreas = append(spareAreas, Empty{start, size})
@@ -110,48 +107,46 @@ func FindSpareSpace(blocks []string) []Empty {
 }
 
 func FindBusySpace(blocks []string) []Busy {
-	spareAreas := []Busy{}
-	prev := ""
-	start := -1
+	fileAreas := []Busy{}
+	prev := "."
+	start := 0
 	for i, digit := range blocks {
-		if digit != "." && prev == "" {
+		if digit != prev && prev == "." {
 			start = i
 			prev = digit
-		} else if  digit != "." && prev == digit {
-			continue
-		} else if digit == "." && prev != "" {
-			size := i - start
-			spareAreas = append(spareAreas, Busy{start, size, blocks[i - 1]})
-			start = -1
-			prev = ""
-		} else if digit == "." && prev == "" {
-			continue
-		} else if digit != "." && prev != digit {
-			size := i - start
-			spareAreas = append(spareAreas, Busy{start, size, blocks[i - 1]})
-			start = i - 1
+		} else if digit != prev && digit != "." {
+			fileAreas = append(fileAreas, Busy{start, i - start, prev})
+			start = i
 			prev = digit
+		} else if digit != prev && digit == "." {
+			fileAreas = append(fileAreas, Busy{start, i - start, prev})
+			prev = "."
 		}
 	}
-	if start != -1 {
-		spareAreas = append(spareAreas, Busy{start + 1, len(blocks) - start - 1, blocks[len(blocks) - 1]})
+	if prev != "." {
+		fileAreas = append(fileAreas, Busy{start, len(blocks) - start, prev})
 	}
-	return spareAreas
-}
 
+	return fileAreas
+}
 
 func Mix(blocks []string, busy []Busy, empty []Empty) []string {
 	for i := len(busy) - 1; i >= 0; i-- {
-		for j := 0; j < len(empty) - 1; j++ {
-			if busy[i].size <= empty[j].size {
+		for j := 0; ; {
+			if busy[i].size <= empty[j].size && empty[j].start+empty[j].size-1 < busy[i].start {
 				for k := 0; k < busy[i].size; k++ {
 					blocks[empty[j].start] = busy[i].value
+					blocks[busy[i].start+k] = "."
 					empty[j].start++
 					empty[j].size--
 				}
-				for k := 0; k < busy[i].size; k++ {
-					blocks[busy[i].start + k] = "."
+				if empty[j].size == 0 {
+					empty = slices.Delete(empty, j, j+1)
 				}
+				break
+			}
+			j++
+			if j >= len(empty) {
 				break
 			}
 		}
