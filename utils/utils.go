@@ -15,6 +15,14 @@ func DigitToInt(digit string) int {
 	return number
 }
 
+func DigitToIntWithSub(digit string, sub int) int {
+	number, err := strconv.Atoi(digit)
+	if err != nil {
+		return sub
+	}
+	return number
+}
+
 func ReadTextFile(textFile string) string {
 	file, err := os.Open(textFile)
 	if err != nil {
@@ -51,4 +59,28 @@ func ReadTextToMatrix(textFile string) [][]string {
 
 func IsInside(v, h, height, width int) bool {
 	return v >= 0 && h >= 0 && v < height && h < width
+}
+
+func StringToIntMatrix(matrix [][]string) [][]int {
+	res := [][]int{}
+	for _, row := range matrix {
+		newRow := []int{}
+		for _, col := range row {
+			newRow = append(newRow, DigitToIntWithSub(col, -1))
+		}
+		res = append(res, newRow)
+	}
+	return res
+}
+
+func RemoveDuplicates[T comparable](visited []T) []T {
+	allKeys := make(map[T]bool)
+	list := []T{}
+	for _, item := range visited {
+		if _, value := allKeys[item]; !value {
+			allKeys[item] = true
+			list = append(list, item)
+		}
+	}
+	return list
 }
