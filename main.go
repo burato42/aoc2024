@@ -1,11 +1,11 @@
 package main
 
 import (
-	"aoc2024/day13"
+	"aoc2024/day14"
 	"fmt"
 )
 
 func main() {
-	machines := day13.ReadInput("./day13/input.txt")
-	fmt.Println(day13.Combine2(machines))
+	// fmt.Println(day14.Simulate(100, 7, 11, "./day14/sample.txt"))
+	fmt.Println(day14.Simulate(10000, 103, 101, "./day14/input.txt"))
 }
